@@ -106,19 +106,7 @@ function addTask(){
          date: '2020-01-01',
          status: false
     }
-    
-    if (userInput === ''){                                     //CHECKS IF USER INPUT IS EMPTY
-        alert('Please enter a task');                          //ALERTS USER TO ENTER A TASK
-        return false;
-    }
-    else if (todo.some(todoItem => todoItem.name === userInput)){ //CHECKS IF USER INPUT IS A DUPLICATE
-        alert('This task already exists');                        //ALERTS USER TO ENTER A UNIQUE TASK
-        return false;
-    }
-    else{
-        todo.push(newItem);                                     //PUSHES NEW TODO ITEM TO TODO LIST
-    }
-
+    todo.push(newItem);                                        //ADDS NEW TODO ITEM TO TODO LIST
     document.querySelector('.userInput').value = '';          //CLEARS USER INPUT
 }
 
@@ -128,9 +116,6 @@ addInput.addEventListener('click', (event) =>{
     taskView(todo);                                            //CALLS VIEW FUNCTION    
 })
 
-
-
-//EDIT TODO ITEM FUNCTION
 
 
 //CLEAR COMPLETED ITEMS FUNCTION
@@ -150,9 +135,6 @@ clear.addEventListener('click', (event) =>{
     clearList();                                               //CALLS CLEAR FUNCTION
     taskView(todo);                                            //CALLS VIEW FUNCTION
 })
-
-
-
 
 
 
