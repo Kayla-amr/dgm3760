@@ -104,7 +104,7 @@ function taskView(todo){
             })
         }
         )
-
+        
         //CHECKS TODO ITEM STATUS
         if(todoItem.status != true){                
             list.appendChild(li);                    //ADDS TODO ITEM TO TODO LIST
@@ -155,6 +155,14 @@ addInput.addEventListener('click', (event) =>{
     addTask();                                                 //CALLS ADD TODO ITEM FUNCTION
     taskView(todo);                                            //CALLS VIEW FUNCTION    
 })
+
+//REMAINING TODOS
+function remaining(){
+    let remainingTodo = 
+    remainingTodo.innerText = list.length;
+}
+
+
 
 //CLEAR COMPLETED ITEMS FUNCTION
 let clear = document.querySelector('.clear');                  //GETS CLEAR BUTTON

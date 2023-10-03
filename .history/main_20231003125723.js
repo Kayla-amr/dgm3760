@@ -156,6 +156,7 @@ addInput.addEventListener('click', (event) =>{
     taskView(todo);                                            //CALLS VIEW FUNCTION    
 })
 
+
 //CLEAR COMPLETED ITEMS FUNCTION
 let clear = document.querySelector('.clear');                  //GETS CLEAR BUTTON
 function clearList(){
