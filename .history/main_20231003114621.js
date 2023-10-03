@@ -136,7 +136,7 @@ addInput.addEventListener('click', (event) =>{
 //CLEAR COMPLETED ITEMS FUNCTION
 let clear = document.querySelector('.clear');                  //GETS CLEAR BUTTON
 function clearList(){
-    completed.innerText='';                                    //CLEARS COMPLETED LIST
+    completed.innerHTML='';                                    //CLEARS COMPLETED LIST
     todo = todo.filter(function(todoItem){                      //FILTERS OUT COMPLETED ITEMS
         return todoItem.status == false;
     })

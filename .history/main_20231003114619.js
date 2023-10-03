@@ -35,7 +35,7 @@ let completed = document.querySelector('.completed');
 //VIEW TODO LIST FUNCTION
 function taskView(todo){
     list.innerText = '';   
-    completed.innerText='';         //CLEARS TODO LIST
+    completed.inn='';         //CLEARS TODO LIST
 
     todo.forEach(function(todoItem) //LOOPS THROUGH TODO LIST
     {
@@ -136,7 +136,7 @@ addInput.addEventListener('click', (event) =>{
 //CLEAR COMPLETED ITEMS FUNCTION
 let clear = document.querySelector('.clear');                  //GETS CLEAR BUTTON
 function clearList(){
-    completed.innerText='';                                    //CLEARS COMPLETED LIST
+    completed.innerHTML='';                                    //CLEARS COMPLETED LIST
     todo = todo.filter(function(todoItem){                      //FILTERS OUT COMPLETED ITEMS
         return todoItem.status == false;
     })
