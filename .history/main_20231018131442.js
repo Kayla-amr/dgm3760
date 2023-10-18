@@ -128,6 +128,7 @@ function taskView(todo){
 }
 taskView(todo); //CALLS VIEW FUNCTION
 
+//
 
 //ADD TODO ITEM FUNCTION
 function addTask(){

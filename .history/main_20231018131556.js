@@ -128,6 +128,17 @@ function taskView(todo){
 }
 taskView(todo); //CALLS VIEW FUNCTION
 
+//SORT BY CATEGORY FUNCTION
+let category = document.querySelector('.category');            //GETS CATEGORY DROPDOWN
+category.addEventListener('change', (event) =>{
+    let categorySelected = document.querySelector('.categorySelected').value; //GETS CATEGORY SELECTED
+    let sortedList = todo.filter(function(todoItem){           //FILTERS TODO LIST BY CATEGORY
+        return todoItem.category == categorySelected;
+    })
+    taskView(sortedList);                                      //CALLS VIEW FUNCTION
+})
+
+//SORT BY DATE FUNCTION
 
 //ADD TODO ITEM FUNCTION
 function addTask(){

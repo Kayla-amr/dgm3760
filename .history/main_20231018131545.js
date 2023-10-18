@@ -128,6 +128,9 @@ function taskView(todo){
 }
 taskView(todo); //CALLS VIEW FUNCTION
 
+//SORT BY CATEGORY FUNCTION
+let category = document.querySelector('.category');            //GETS CATEGORY DROPDOWN
+
 
 //ADD TODO ITEM FUNCTION
 function addTask(){
