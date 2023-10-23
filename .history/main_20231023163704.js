@@ -100,7 +100,7 @@ function taskView(todo){
             editInput.addEventListener('keyup', function(){  //ADDS EVENT LISTENER TO INPUT
                 if(event.keyCode === 13){                    //CHECKS IF ENTER KEY IS PRESSED
                     todoItem.name = editInput.value;         //SETS TODO ITEM NAME TO INPUT VALUE
-                    li.innerText = todoItem.date + ' ' + todoItem.name;            //SETS TODO ITEM TEXT TO TODO ITEM NAME
+                    li.innerText = todoItem.name;            //SETS TODO ITEM TEXT TO TODO ITEM NAME
                     li.appendChild(status);                  //ADDS INPUT TO TODO ITEM
                     li.appendChild(deleteBtn);               //ADDS DELETE BUTTON TO TODO ITEM
                     li.appendChild(editBtn);                 //ADDS EDIT BUTTON TO TODO ITEM
