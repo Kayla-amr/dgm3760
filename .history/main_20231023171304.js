@@ -128,22 +128,7 @@ function taskView(todo){
 }
 taskView(todo); //CALLS VIEW FUNCTION
 
-function categoryView(categorySelected) {
-    let filteredList;
-
-    if (categorySelected === 'All') {
-        // Show all tasks
-        filteredList = todo;
-    } else {
-        // Filter tasks based on the selected category
-        filteredList = todo.filter(function (todoItem) {
-            return todoItem.category === categorySelected;
-        });
-    }
-
-    taskView(filteredList);
-}
-
+function 
 
 
 //ADD TODO ITEM FUNCTION

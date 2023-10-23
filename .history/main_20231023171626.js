@@ -128,22 +128,24 @@ function taskView(todo){
 }
 taskView(todo); //CALLS VIEW FUNCTION
 
-function categoryView(categorySelected) {
-    let filteredList;
+function categoryView(todo){
+    let categorySelected = document.querySelector('.categorySelected').value; //GETS CATEGORY SELECTED
+    let filteredList = todo.filter(function(todoItem){                         //FILTERS TODO LIST BY CATEGORY
+        return todoItem.category === categorySelected;
+    })
 
-    if (categorySelected === 'All') {
-        // Show all tasks
-        filteredList = todo;
-    } else {
-        // Filter tasks based on the selected category
-        filteredList = todo.filter(function (todoItem) {
-            return todoItem.category === categorySelected;
-        });
+    if (categorySelected === 'All'){                                            //CHECKS IF CATEGORY SELECTED IS ALL
+        filteredList = todo;                                                    //SETS FILTERED LIST TO TODO LIST
+    }
+    else if (categorySelected === 'Work'){                                 //CHECKS IF CATEGORY SELECTED IS COMPLETED
+        filteredList = todo.filter(function(todoItem){                         //FILTERS TODO LIST BY CATEGORY
+            return todoItem.category === Work;
+        })
     }
 
-    taskView(filteredList);
-}
 
+    taskView(filteredList);                                                    //CALLS VIEW FUNCTION
+}
 
 
 //ADD TODO ITEM FUNCTION

@@ -85,7 +85,7 @@ function taskView(todo){
         //CREATES EDIT BUTTON
         let editBtn = document.createElement('button');   //CREATES BUTTON ELEMENT
         editBtn.setAttribute('id', 'edit');               //SETS BUTTON ID
-        editBtn.innerText = 'Edit';                       //SETS BUTTON TEXT
+        editBtn.innerText = 'Rename';                       //SETS BUTTON TEXT
 
         //ADDS EVENT LISTENER TO EDIT BUTTON
         editBtn.addEventListener('click', function(){      //ADDS EVENT LISTENER TO EDIT BUTTON
