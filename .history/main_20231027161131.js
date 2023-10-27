@@ -147,7 +147,7 @@ function clearList(){
     })
 }
 
-clear.addEventListener('click', () =>{
+clear.addEventListener('click', (event) =>{
     clearList();                                               //CALLS CLEAR FUNCTION
     taskView(todo);                                            //CALLS VIEW FUNCTION
 })
@@ -188,8 +188,8 @@ function enableEditing(li, todoItem) {
         editCategory.appendChild(option);
     });
 
-
-    editCategory.value = todoItem.category;              //SET EDIT CATEGORY SELECT VALUE
+    // Set the selected value
+    editCategory.value = todoItem.category;
 
     editCategory.setAttribute('id', 'categorySelected'); //SET EDIT CATEGORY SELECT ID
     editCategory.setAttribute('value', todoItem.category); //SET EDIT CATEGORY SELECT VALUE

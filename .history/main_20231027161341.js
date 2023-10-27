@@ -147,7 +147,7 @@ function clearList(){
     })
 }
 
-clear.addEventListener('click', () =>{
+clear.addEventListener('click', (event) =>{
     clearList();                                               //CALLS CLEAR FUNCTION
     taskView(todo);                                            //CALLS VIEW FUNCTION
 })
