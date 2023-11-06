@@ -251,7 +251,7 @@ function countTasks(todoItem) {
             count++;
         }
     });
-    countDisplay.innerText = "There are " + count + " tasks left to complete";
+    countDisplay.innerText = "There arecount;
 }
 countTasks(todo); //CALLS COUNT FUNCTION
 
