@@ -33,9 +33,7 @@ let todo = [
 let categories = [
     'Home', 
     'Work', 
-    'School'
-];
-
+    'School'];
 document.querySelector('.app > h1').innerText = 'To Do List 2023';
 
 let list = document.querySelector('.list');

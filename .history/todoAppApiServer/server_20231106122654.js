@@ -35,9 +35,7 @@ let todo = [
 ];
 let categories = [
     'Home', 
-    'Work', 
-    'School'
-];
+    'Work', 'School'];
 
 app.use(express.json());
 

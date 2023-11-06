@@ -30,12 +30,6 @@ let todo = [
 },
 ];
 
-let categories = [
-    'Home', 
-    'Work', 
-    'School'
-];
-
 document.querySelector('.app > h1').innerText = 'To Do List 2023';
 
 let list = document.querySelector('.list');
@@ -190,6 +184,7 @@ function enableEditing(li, todoItem) {
     editDate.setAttribute('value', todoItem.date);   //SET EDIT DATE INPUT VALUE
     li.appendChild(editDate);                        //APPEND EDIT DATE INPUT TO LIST ITEM
 
+    
     categories.forEach(category => {
         let option = document.createElement('option');
         option.value = category;

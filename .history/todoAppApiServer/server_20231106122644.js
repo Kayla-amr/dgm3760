@@ -33,11 +33,7 @@ let todo = [
     status: false
 },
 ];
-let categories = [
-    'Home', 
-    'Work', 
-    'School'
-];
+let categories = ['Home', 'Work', 'School'];
 
 app.use(express.json());
 

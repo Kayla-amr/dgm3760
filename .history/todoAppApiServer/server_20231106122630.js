@@ -2,42 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-let todo = [
-    {
-    id: 0,
-    name: 'View Training Module',
-    category: 'Home',
-    date: '2020-03-01',
-    status: false
-
-},
-{
-    id: 1,
-    name: 'Read Require Reads',
-    category: 'Work',
-    date: '2020-12-01',
-    status: true
-},
-{
-    id: 2,
-    name: 'Complete Assignment',
-    category: 'Work',
-    date: '2020-01-01',
-    status: true
-},
-{
-    id: 3,
-    name: 'Submit Assignment',
-    category: 'School',
-    date: '2020-05-01',
-    status: false
-},
-];
-let categories = [
-    'Home', 
-    'Work', 
-    'School'
-];
+let todo = [ ... ]; // your previous todo list here
+let categories = ['Home', 'Work', 'School'];
 
 app.use(express.json());
 
