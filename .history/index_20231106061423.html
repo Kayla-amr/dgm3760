@@ -11,14 +11,34 @@
 
         <div class="input">
             <input class="userInput" type="text" placeholder="Add a new todo">
+            <select class="categorySelected">
+                <option value="Work">Work</option>
+                <option value="Home">Home</option>
+                <option value="School">School</option>
+            </select>
+            <input class="dateInput" type="date" placeholder="Date">
+
             <button class="addInput">+</button>
         </div>
 
+        <div>
+            <select name="categorySelected" class="categorySelected" onchange="categoryView(this.value)">
+                <option value="All">All</option>
+                <option value="Home">Home</option>
+                <option value="Work">Work</option>
+                <option value="School">School</option>
+            </select>
+            
+        </div>
         <div class="todos">
             <h4>Not Completed</h4>
             <ul class="list"></ul>
             <h4>Completed</h4>
             <ul class="completed"></ul>
+        </div>
+
+        <div> 
+            
         </div>
     
         <div class="btns">

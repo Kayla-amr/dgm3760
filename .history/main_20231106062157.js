@@ -125,15 +125,13 @@ function addTask(){
  addInput = document.querySelector('.addInput');                //GETS ADD BUTTON
  addInput.addEventListener('click', (event) => {
      addTask();                                                 //CALLS ADD TODO ITEM FUNCTION
-     taskView(todo);                                            //CALLS VIEW FUNCTION  
-     countTasks(todo); //CALLS COUNT FUNCTION  
+     taskView(todo);                                            //CALLS VIEW FUNCTION    
  })
 
 // DELETE TASK FUNCTION
 function deleteTask(li) {
     todo = todo.filter(todoItem => todoItem.id != li.id);  //FILTERS OUT DELETED TASK
     taskView(todo);                                        //RELOADS VIEW
-    countTasks(todo); //CALLS COUNT FUNCTION
 }
 
 //CLEAR COMPLETED ITEMS FUNCTION
@@ -152,7 +150,6 @@ function clearList(){
 clear.addEventListener('click', () => {
     clearList();                                               //CALLS CLEAR FUNCTION
     taskView(todo);                                            //CALLS VIEW FUNCTION
-    countTasks(todo); //CALLS COUNT FUNCTION
 })
 
 // TOGGLE STATUS FUNCTION
