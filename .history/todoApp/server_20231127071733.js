@@ -44,7 +44,7 @@ let categories = [
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('client'));
+app.use(express.static('public'));
 
 // GET TODOS
 app.get('/api/todo', (req, res) => res.send(todo));
