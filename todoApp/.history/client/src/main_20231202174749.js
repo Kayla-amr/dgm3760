@@ -1,58 +1,46 @@
-// let todo = [
-//     {
-//     id: 0,
-//     name: 'View Training Module',
-//     category: 'Home',
-//     date: '2020-03-01',
-//     status: false
+let todo = [
+    {
+    id: 0,
+    name: 'View Training Module',
+    category: 'Home',
+    date: '2020-03-01',
+    status: false
 
-// },
-// {
-//     id: 1,
-//     name: 'Read Require Reads',
-//     category: 'Work',
-//     date: '2020-12-01',
-//     status: true
-// },
-// {
-//     id: 2,
-//     name: 'Complete Assignment',
-//     category: 'Work',
-//     date: '2020-01-01',
-//     status: true
-// },
-// {
-//     id: 3,
-//     name: 'Submit Assignment',
-//     category: 'School',
-//     date: '2020-05-01',
-//     status: false
-// },
-// ];
+},
+{
+    id: 1,
+    name: 'Read Require Reads',
+    category: 'Work',
+    date: '2020-12-01',
+    status: true
+},
+{
+    id: 2,
+    name: 'Complete Assignment',
+    category: 'Work',
+    date: '2020-01-01',
+    status: true
+},
+{
+    id: 3,
+    name: 'Submit Assignment',
+    category: 'School',
+    date: '2020-05-01',
+    status: false
+},
+];
 
-// let categories = [
-//     'Home', 
-//     'Work', 
-//     'School'
-// ];
+let categories = [
+    'Home', 
+    'Work', 
+    'School'
+];
 
 document.querySelector('.app > h1').innerText = 'To Do List 2023';
 
 let list = document.querySelector('.list');
 let completed = document.querySelector('.completed');
 
-let todo = []; 
-let categories = [];
-    
-fetch('/api/todo')
-    .then(res => res.json())
-    .then(data => {taskView(data)});
-
-fetch('/api/categories')
-    .then(res => res.json())
-    .then(data => {
-        categories = data;
-        categoryView = data});
 
 /*CREATING ELEMENTS*/
 
@@ -117,26 +105,27 @@ function addTask(){
     let userInput = document.querySelector('.userInput').value; //GETS USER INPUT
     let categorySelected = document.querySelector('.categorySelected').value; //GETS CATEGORY SELECTED
  
-    fetch('/api/todo', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: userInput,
-            category: categorySelected,
-            date: dateInput
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        taskView(data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
+    const newItem = {                                          //CREATES NEW TODO ITEM OBJECT
+          id: todo.length,
+          name: userInput,
+          category: categorySelected,
+          date: dateInput,
+          status: false
+     }
+     
+     if (userInput === ''){                                     //CHECKS IF USER INPUT IS EMPTY
+         alert('Please enter a task');                          //ALERTS USER TO ENTER A TASK
+         return false;
+     }
+     else if (todo.some(todoItem => todoItem.name === userInput)){ //CHECKS IF USER INPUT IS A DUPLICATE
+         alert('This task already exists');                        //ALERTS USER TO ENTER A UNIQUE TASK
+         return false;
+     }
+     else{
+         todo.push(newItem);                                     //PUSHES NEW TODO ITEM TO TODO LIST
+     }
+ 
+     document.querySelector('.userInput').value = '';           //CLEARS USER INPUT
  }
  
  addInput = document.querySelector('.addInput');                //GETS ADD BUTTON
@@ -148,17 +137,9 @@ function addTask(){
 
 // DELETE TASK FUNCTION
 function deleteTask(li) {
-    fetch('/api/todo/' + li.id, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        taskView(data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    todo = todo.filter(todoItem => todoItem.id != li.id);  //FILTERS OUT DELETED TASK
+    taskView(todo);                                        //RELOADS VIEW
+    countTasks(todo); //CALLS COUNT FUNCTION
 }
 
 //CLEAR COMPLETED ITEMS FUNCTION
@@ -182,26 +163,14 @@ clear.addEventListener('click', () => {
 
 // TOGGLE STATUS FUNCTION
 function toggleStatus(status, todoItem) {
-    fetch('/api/todo/status', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            status: status.checked,
-            id: todoItem.id // Use the correct ID from the todoItem object
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        taskView(data); // Assuming the server sends back the updated list
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    if(status.checked){ 
+        todoItem.status = true;  //CHANGE STATUS TO TRUE
+    } else {
+        todoItem.status = false; //CHANGE STATUS TO FALSE
+    }
+    taskView(todo);              // RELOADS VIEW
+    countTasks(todo); //CALLS COUNT FUNCTION
 }
-
 
 //EDIT TASK FUNCTION
 function enableEditing(li, todoItem) {
@@ -246,31 +215,19 @@ function enableEditing(li, todoItem) {
 
 // SAVE TASK FUNCTION
 function saveTask(li, todoItem) {
-    let editInput = document.querySelector('#editInput');
-    let editDate = document.querySelector('#editDate');
-    let editCategory = document.querySelector('#categorySelected');
+    let editInput = document.querySelector('#editInput'); //GETS EDIT INPUT
+    let editDate = document.querySelector('#editDate');   //GETS EDIT DATE INPUT
+    let editCategory = document.querySelector('#categorySelected'); //GETS EDIT CATEGORY SELECT
 
-    fetch('/api/todo/' + todoItem.id, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: editInput.value,
-            date: editDate.value,
-            category: editCategory.value
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        taskView(data); // Assuming the server sends back the updated list
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    todoItem.date = editDate.value;                        //SETS TODO ITEM DATE TO EDIT DATE INPUT VALUE
+    todoItem.name = editInput.value;                       //SETS TODO ITEM NAME TO EDIT INPUT VALUE
+    todoItem.category = editCategory.value;                //SETS TODO ITEM CATEGORY TO EDIT CATEGORY SELECT VALUE
+
+    li.innerText = todoItem.date + ' ' + todoItem.name;    //SETS LIST ITEM TEXT TO TODO ITEM DATE AND NAME
+
+    taskView(todo);                                        //RELOADS VIEW
+    countTasks(todo); //CALLS COUNT FUNCTION
 }
-
 
 
 // CATEGORY VIEW FUNCTION

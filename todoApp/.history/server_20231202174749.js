@@ -3,59 +3,55 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static('client'));
-
-
 let todo = [
     {
     id: 1,
-    name: 'New View Training Module',
+    name: 'View Training Module',
     category: 'Home',
-    date: '2020-01-01',
+    date: '2020-03-01',
     status: false
 
 },
 {
     id: 2,
-    name: 'New Read Require Reads',
+    name: 'Read Require Reads',
     category: 'Work',
-    date: '2020-02-01',
+    date: '2020-12-01',
     status: true
 },
 {
     id: 3,
-    name: 'New Complete Assignment',
+    name: 'Complete Assignment',
     category: 'Work',
-    date: '2020-03-01',
+    date: '2020-01-01',
     status: true
 },
 {
     id: 4,
-    name: 'New Submit Assignment',
+    name: 'Submit Assignment',
     category: 'School',
-    date: '2020-04-01',
+    date: '2020-05-01',
     status: false
 },
 ];
 
 let categories = [
-    'New Home', 
-    'New Work', 
-    'New School'
+    'Home', 
+    'Work', 
+    'School'
 ];
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static('client'));
 
 // GET TODOS
 app.get('/api/todo', (req, res) => res.send(todo));
 
 // POST TODO
 app.post('/api/todo', (req, res) => {
- 
-    console.log(req.body);
-    
+
     todo.push({
         id: todo.length + 1,
         name: req.body.name,
@@ -69,32 +65,16 @@ app.post('/api/todo', (req, res) => {
 
 // PUT TODO (update)
 app.put('/api/todo/:id', (req, res) => {
-    const { id } = req.params;
-    const { name, category, date } = req.body;
-
-    const todoIndex = todo.findIndex(item => item.id === parseInt(id));
-
-    if (todoIndex !== -1) {
-        todo[todoIndex] = { ...todo[todoIndex], name, category, date };
-        res.send(todo);
+    const id = req.params.id;
+    const updatedTodo = req.body;
+    const index = todo.findIndex(task => task.id == id);
+    if (index > -1) {
+        todo[index] = updatedTodo;
+        res.send(updatedTodo);
     } else {
         res.status(404).send({ error: 'Todo not found' });
     }
 });
-
-app.put('/api/todo/status', (req, res) => {
-    const { status, id } = req.body; // Destructure for clarity
-
-    const todoIndex = todo.findIndex(item => item.id === id); // Find the index of the item
-
-    if (todoIndex !== -1) {
-        todo[todoIndex].status = status; // Update the status
-        res.send(todo);
-    } else {
-        res.status(404).send({ error: 'Todo not found' });
-    }
-});
-
 
 // DELETE TODO
 app.delete('/api/todo/:id', (req, res) => {
@@ -111,9 +91,9 @@ app.delete('/api/todo/:id', (req, res) => {
 
 // GET ALL TODOS for a CATEGORY
 app.get('/api/todo/category', (req, res) => {
-    const category = req.query.category;
-    const filteredTodo = todo.filter(item => item.category === category);
-    res.send(filteredTodo);
+    const category = req.params.category;
+    const todosForCategory = todo.filter(t => t.category === category);
+    res.send(todosForCategory);
 });
 
 // GET CATEGORIES
@@ -121,9 +101,8 @@ app.get('/api/categories', (req, res) => res.send(categories));
 
 // POST CATEGORIES
 app.post('/api/categories', (req, res) => {
-    categories.push({
-        name: req.body.name
-    });
+    const newCategory = req.body.name;
+    categories.push(newCategory);
     res.send(categories);
 });
 
@@ -142,15 +121,14 @@ app.put('/api/categories', (req, res) => {
 
 // DELETE CATEGORIES
 app.delete('/api/categories', (req, res) => {
-    const newCategory = categories.filter(category => category.name !== req.body.name)
-    if (newCategory.length < categories.length) {
-        categories = newCategory
-        res.send(categories)
-    } 
+    const category = req.params.category;
+    categories = categories.filter(subject => subject !== category);
+    if (categories.length < oldCategories.length) {
+        res.send(categories);
+    }
     else {
         res.status(404).send({ error: 'Category not found' });
     }
 });
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
-
