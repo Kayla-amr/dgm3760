@@ -68,6 +68,7 @@ app.post('/api/todo', (req, res) => {
     });
 
 // PUT TODO (update)
+app.put
 app.put('/api/todo/status', (req, res) => {
     const { status, id } = req.body; // Destructure for clarity
 

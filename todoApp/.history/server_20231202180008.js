@@ -68,6 +68,20 @@ app.post('/api/todo', (req, res) => {
     });
 
 // PUT TODO (update)
+app.put('/api/todo/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, category, date } = req.body;
+
+    const todoIndex = todo.findIndex(item => item.id === parseInt(id));
+
+    if (todoIndex !== -1) {
+        todo[todoIndex] = { ...todo[todoIndex], name, category, date };
+        res.send(todo);
+    } else {
+        res.status(404).send({ error: 'Todo not found' });
+    }
+});
+
 app.put('/api/todo/status', (req, res) => {
     const { status, id } = req.body; // Destructure for clarity
 
@@ -97,9 +111,9 @@ app.delete('/api/todo/:id', (req, res) => {
 
 // GET ALL TODOS for a CATEGORY
 app.get('/api/todo/category', (req, res) => {
-    const category = req.params.category;
-    const todosForCategory = todo.filter(t => t.category === category);
-    res.send(todosForCategory);
+    const category = req.query.category;
+    const filteredTodo = todo.filter(item => item.category === category);
+    res.send(filteredTodo);
 });
 
 // GET CATEGORIES
@@ -107,9 +121,7 @@ app.get('/api/categories', (req, res) => res.send(categories));
 
 // POST CATEGORIES
 app.post('/api/categories', (req, res) => {
-    const newCategory = req.body.name;
-    categories.push(newCategory);
-    res.send(categories);
+    categories.push()
 });
 
 // PUT CATEGORIES (update)

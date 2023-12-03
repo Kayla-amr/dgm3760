@@ -69,18 +69,18 @@ app.post('/api/todo', (req, res) => {
 
 // PUT TODO (update)
 app.put('/api/todo/status', (req, res) => {
-    const { status, id } = req.body; // Destructure for clarity
-
-    const todoIndex = todo.findIndex(item => item.id === id); // Find the index of the item
-
-    if (todoIndex !== -1) {
-        todo[todoIndex].status = status; // Update the status
-        res.send(todo);
-    } else {
-        res.status(404).send({ error: 'Todo not found' });
+    const status = req.body.status;
+    const id = req.body.id;
+    
+    if(status.checked) {
+        todo[id].status = true;
     }
-});
-
+    else {
+        todo[id].status = false;
+    }
+    res.send(todo);
+}
+);
 
 // DELETE TODO
 app.delete('/api/todo/:id', (req, res) => {

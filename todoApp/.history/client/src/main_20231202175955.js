@@ -176,7 +176,7 @@ clear.addEventListener('click', () => {
 })
 
 // TOGGLE STATUS FUNCTION
-function toggleStatus(status, todoItem) {
+function toggleStatus(status) {
     fetch('/api/todo/status', {
         method: 'PUT',
         headers: {
@@ -184,19 +184,19 @@ function toggleStatus(status, todoItem) {
         },
         body: JSON.stringify({
             status: status.checked,
-            id: todoItem.id // Use the correct ID from the todoItem object
+            id: li.id
         })
     })
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        taskView(data); // Assuming the server sends back the updated list
+        taskView(data);
     })
     .catch((error) => {
         console.error('Error:', error);
-    });
+    }
+    );
 }
-
 
 //EDIT TASK FUNCTION
 function enableEditing(li, todoItem) {
