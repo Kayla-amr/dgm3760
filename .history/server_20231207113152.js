@@ -13,7 +13,7 @@ let todo = [
     {
     id: 1,
     name: 'New View Training Module',
-    category: 'New Home',
+    category: 'Home',
     date: '2020-01-01',
     status: false
 
@@ -21,39 +21,30 @@ let todo = [
 {
     id: 2,
     name: 'New Read Require Reads',
-    category: 'New Work',
+    category: 'Work',
     date: '2020-02-01',
     status: true
 },
 {
     id: 3,
     name: 'New Complete Assignment',
-    category: 'New Work',
+    category: 'Work',
     date: '2020-03-01',
     status: true
 },
 {
     id: 4,
     name: 'New Submit Assignment',
-    category: 'New School',
+    category: 'School',
     date: '2020-04-01',
     status: false
 },
 ];
 
 let categories = [
-    {
-        id: 1,
-        name: 'New Home'
-    },
-    {
-        id: 2,
-        name: 'New Work'
-    },
-    {
-        id: 3,
-        name: 'New School'
-    }
+    'New Home', 
+    'New Work', 
+    'New School'
 ];
 
 
@@ -116,40 +107,34 @@ app.get('/api/categories', (req, res) => res.send(categories));
 
 // POST CATEGORIES
 app.post('/api/categories', (req, res) => {
-    categories.push({
-        id: categories.length + 1,
-        name: req.body.name,
-    });
+    const newCategory = req.body.name;
+    categories.push(newCategory);
     res.send(categories);
 });
 
 // PUT CATEGORIES (update)
 app.put('/api/categories', (req, res) => {
-    const { name, oldName } = req.body; // Destructure for clarity
-
-    const categoryIndex = categories.findIndex(item => item === oldName); // Find the index of the item
-
-    if (categoryIndex !== -1) {
-        categories[categoryIndex] = name; // Update the status
-        res.send(categories);
+    const oldCategory = req.params.oldCategory;
+    const newCategory = req.body.name;
+    const index = categories.indexOf(oldCategory);
+    if (index > -1) {
+        categories[index] = newCategory;
+        res.send({ name: newCategory });
     } else {
         res.status(404).send({ error: 'Category not found' });
     }
 });
 
 // DELETE CATEGORIES
-app.delete('/api/categories/:name', (req, res) => {
-    const newCategories = categories.filter(category => category !== req.params.name)
-    
-    if (newCategories.length < categories.length) {
-        categories = newCategories
-        res.send(categories)
-    } 
+app.delete('/api/categories', (req, res) => {
+    const category = req.params.category;
+    categories = categories.filter(subject => subject !== category);
+    if (categories.length < oldCategories.length) {
+        res.send(categories);
+    }
     else {
         res.status(404).send({ error: 'Category not found' });
     }
-})
-
-
+});
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));

@@ -43,40 +43,10 @@ let completed = document.querySelector('.completed');
 
 let todo = []; 
 let categories = [];
-
-async function getData() {
-    let todosPromise = fetch('/api/todo');
-    let categoriesPromise = fetch('/api/categories');
-
-    Promise.all([todosPromise, categoriesPromise])
-        .then(responses => {
-            return Promise.all(responses.map(response => {
-                return response.json();
-            }));
-        })
-        .then(data => {
-            todo = data[0];
-            categories = data[1];
-            taskView(todo);
-            countTasks(todo);
-            populateCategoryDropdowns(categories);
-        }
-    );
-}
-
-    getData();
-
-function populateCategoryDropdowns(categories) {
-    const dropdowns = document.querySelectorAll('.categorySelected');
-    dropdowns.forEach(dropdown => {
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.name;
-            option.innerText = category.name;
-            dropdown.appendChild(option);
-        });
-    });
-}
+    
+fetch('/api/todo')
+    .then(res => res.json())
+    .then(data => {taskView(data)});
 
 
 /*CREATING ELEMENTS*/
@@ -86,7 +56,7 @@ function populateCategoryDropdowns(categories) {
 function createListItem(todoItem) {
     let li = document.createElement('li'); //CREATE LIST ITEM
     li.setAttribute('id', todoItem.id);    //SET LIST ITEM ID
-    li.innerText = todoItem.category + ' ' + todoItem.date +   ' ' +todoItem.name; //SET LIST ITEM TEXT
+    li.innerText = todoItem.date + ' ' + todoItem.name; //SET LIST ITEM TEXT
     return li;
 }
 
@@ -134,21 +104,6 @@ function createSaveButton(li, todoItem) {
         saveTask(li, todoItem);                     //CALLS SAVE TASK FUNCTION
     });
     return saveBtn;  
-}
-function createEditDateInput(todoItem) {
-    let editDate = document.createElement('input');  //CREATE EDIT DATE INPUT
-    editDate.setAttribute('type', 'date');           //SET EDIT DATE INPUT TYPE
-    editDate.setAttribute('id', 'editDate');         //SET EDIT DATE INPUT ID
-    editDate.setAttribute('value', todoItem.date);   //SET EDIT DATE INPUT VALUE
-    return editDate;
-}
-
-function creatEditInput(todoItem) {
-    let editInput = document.createElement('input'); //CREATE EDIT INPUT
-    editInput.setAttribute('type', 'text');          //SET EDIT INPUT TYPE
-    editInput.setAttribute('id', 'editInput');       //SET EDIT INPUT ID
-    editInput.setAttribute('value', todoItem.name);  //SET EDIT INPUT VALUE
-    return editInput;
 }
 
 //ADD TODO ITEM FUNCTION
@@ -199,7 +154,6 @@ function deleteTask(li) {
     .catch((error) => {
         console.error('Error:', error);
     });
-    
 }
 
 //CLEAR COMPLETED ITEMS FUNCTION
@@ -214,11 +168,11 @@ function clearList(){
         todoItem.id = todo.indexOf(todoItem);                  //SETS TODO ITEM ID
     })
 }
-taskView(todo);                                              //CALLS VIEW FUNCTION
-
 
 clear.addEventListener('click', () => {
-    clearList();                                              //CALLS CLEAR COMPLETED ITEMS FUNCTION
+    clearList();                                               //CALLS CLEAR FUNCTION
+    taskView(todo);                                            //CALLS VIEW FUNCTION
+    countTasks(todo); //CALLS COUNT FUNCTION
 })
 
 // TOGGLE STATUS FUNCTION
@@ -237,7 +191,6 @@ function toggleStatus(status, todoItem) {
     .then(data => {
         console.log('Success:', data);
         taskView(data); // Assuming the server sends back the updated list
-        countTasks(data); //CALLS COUNT FUNCTION
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -245,61 +198,61 @@ function toggleStatus(status, todoItem) {
 }
 
 
-
-function createEditCategorySelect(todoItem) {
-    let editCategory = document.createElement('select'); //CREATE EDIT CATEGORY SELECT
-    editCategory.setAttribute('id', 'editCategory');     //SET EDIT CATEGORY SELECT ID
-    editCategory.setAttribute('class', 'categorySelected'); //SET EDIT CATEGORY SELECT CLASS
-
-    categories.forEach(category => { //LOOPS THROUGH CATEGORIES
-        let option = createCategoryOption(category, todoItem.category); //CREATE CATEGORY OPTION
-        editCategory.appendChild(option); //APPENDS CATEGORY OPTION TO EDIT CATEGORY SELECT
-    });
-
-    return editCategory;
-}
-
-function createCategoryOption(category, selectedCategory) {
-    let option = document.createElement('option'); //CREATE CATEGORY OPTION
-    option.value = category.name; //SET CATEGORY OPTION VALUE
-    option.innerText = category.name; //SET CATEGORY OPTION TEXT
-    if (category.name === selectedCategory) {
-        option.selected = true; //SET SELECTED IF MATCHES TODO ITEM CATEGORY
-    }
-    return option;
-}
-
-
-
 //EDIT TASK FUNCTION
 function enableEditing(li, todoItem) {
-    let editDate = createEditDateInput(todoItem);       //CREATE EDIT DATE INPUT
-    let editInput = creatEditInput(todoItem);           //CREATE EDIT INPUT
-    let editCategory = createEditCategorySelect(todoItem); //CREATE EDIT CATEGORY SELECT
-    let saveBtn = createSaveButton(li, todoItem);       //CREATE SAVE BUTTON
-    editCategory.value = todoItem.category;             //SET EDIT CATEGORY SELECT VALUE
-    li.innerText = '';                                 //CLEAR LIST ITEM TEXT
-    li.appendChild(editDate);                          //APPEND EDIT DATE INPUT TO LIST ITEM
-    li.appendChild(editInput);                         //APPEND EDIT INPUT TO LIST ITEM
-    li.appendChild(editCategory);                      //APPEND EDIT CATEGORY SELECT TO LIST ITEM
-    li.appendChild(saveBtn);                           //APPEND SAVE BUTTON TO LIST ITEM
+    let editInput = document.createElement('input'); //CREATE EDIT INPUT
+    let editDate = document.createElement('input');  //CREATE EDIT DATE INPUT
+    let editCategory = document.createElement('select'); //CREATE EDIT CATEGORY SELECT
+    let saveBtn = createSaveButton(li, todoItem);     //CREATE SAVE BUTTON
+
+    editInput.setAttribute('type', 'text');          //SET EDIT INPUT TYPE
+    editInput.setAttribute('id', 'editInput');       //SET EDIT INPUT ID
+    editInput.setAttribute('value', todoItem.name);  //SET EDIT INPUT VALUE
+    li.innerText = '';                               //CLEAR LIST ITEM TEXT
+    li.appendChild(editInput);                       //APPEND EDIT INPUT TO LIST ITEM
+
+    editDate.setAttribute('type', 'date');           //SET EDIT DATE INPUT TYPE
+    editDate.setAttribute('id', 'editDate');         //SET EDIT DATE INPUT ID
+    editDate.setAttribute('value', todoItem.date);   //SET EDIT DATE INPUT VALUE
+    li.appendChild(editDate);                        //APPEND EDIT DATE INPUT TO LIST ITEM
+
+    categories.forEach(category => {
+        let option = document.createElement('option');
+        option.value = category;
+        option.innerText = category;
+        editCategory.appendChild(option);
+    });
+
+
+    editCategory.value = todoItem.category;              //SET EDIT CATEGORY SELECT VALUE
+
+    editCategory.setAttribute('id', 'categorySelected'); //SET EDIT CATEGORY SELECT ID
+    editCategory.setAttribute('value', todoItem.category); //SET EDIT CATEGORY SELECT VALUE
+    li.appendChild(editCategory);                         //APPEND EDIT CATEGORY SELECT TO LIST ITEM
+
+
+
+    saveBtn.addEventListener('click', () => {
+        saveTask(li, todoItem);                         //CALLS SAVE TASK FUNCTION
+    });
+
+    li.appendChild(saveBtn);                            //APPEND SAVE BUTTON TO LIST ITEM
 }
 
 // SAVE TASK FUNCTION
 function saveTask(li, todoItem) {
     let editInput = document.querySelector('#editInput'); //GETS EDIT INPUT
     let editDate = document.querySelector('#editDate');   //GETS EDIT DATE INPUT
-    let editCategory = document.querySelector('#editCategory'); // Change to 'editCategory'
+    let editCategory = document.querySelector('#categorySelected'); //GETS EDIT CATEGORY SELECT
 
     todoItem.date = editDate.value;                        //SETS TODO ITEM DATE TO EDIT DATE INPUT VALUE
     todoItem.name = editInput.value;                       //SETS TODO ITEM NAME TO EDIT INPUT VALUE
     todoItem.category = editCategory.value;                //SETS TODO ITEM CATEGORY TO EDIT CATEGORY SELECT VALUE
 
-    li.innerText = todoItem.category + ' ' + todoItem.date +   ' ' +todoItem.name;  //SETS LIST ITEM TEXT TO TODO ITEM DATE AND NAME
+    li.innerText = todoItem.date + ' ' + todoItem.name;    //SETS LIST ITEM TEXT TO TODO ITEM DATE AND NAME
 
     taskView(todo);                                        //RELOADS VIEW
-
-    console.log(todo);
+    countTasks(todo); //CALLS COUNT FUNCTION
 }
 
 
@@ -318,7 +271,6 @@ function categoryView(categorySelected) {
     }
 
     taskView(filteredList);
-    countTasks(filteredList); //CALLS COUNT FUNCTION
 }
 
 //COUNT FUNCTION
@@ -335,7 +287,7 @@ function countTasks(todoItem) {
 countTasks(todo); //CALLS COUNT FUNCTION
 
 //TASK VIEW FUNCTION
-async function taskView(todo){
+function taskView(todo){
     list.innerText = '';
     completed.innerText='';
 
